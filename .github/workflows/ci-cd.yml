@@ -1,4 +1,4 @@
-name : Continous Integration and Deployment
+name : Continous Integration & Deployment
 
 on: 
  push:
