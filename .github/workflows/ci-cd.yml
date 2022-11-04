@@ -7,7 +7,7 @@ on:
 
 env:
  DOTNET_VERSION: "5.0.x"
- AZURE_WEBAPP_NAME: my_azure_web_app_name
+ AZURE_WEBAPP_NAME: MyGithubActionsTest
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
       - name: Setup .NET 5
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-versions: ${{ env.DOTNET_VERSION }}  
+           dotnet-versions: ${{ env.DOTNET_VERSION }}  
 
       - name: Restore dependencies
         run: dotnet restore
@@ -31,14 +31,14 @@ jobs:
         run: dotnet test -c Release --no-build
 
       - name: Publish app
-        run: dotnet publish -c Release -o  ./out  
-
-      # - name:   Deploy to Azure Web Apps
-      #   uses: azure/webapps-deploy@v2
-      #   with: 
-      #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
-      #     publish-profile: ${{ secret.AZURE_WEBAPP_PUBLISH_SECRET }}
-      #     package: ./out
+        run: dotnet publish -c Release -o  ./out
+  
+      - name: Deploy to Azure Web Apps
+        uses: azure/webapps-deploy@v2
+        with: 
+           app-name: ${{ env.AZURE_WEBAPP_NAME }}
+           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_SECRET }}
+           package: ./out
 
 
           
