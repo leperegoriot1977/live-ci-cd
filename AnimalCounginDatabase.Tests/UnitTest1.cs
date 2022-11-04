@@ -20,6 +20,8 @@ namespace AnimalCounginDatabase.Tests
             var factory = new CustomerContextFactory();
             using var context = factory.CreateDbContext(null);
 
+            await context.Database.EnsureDeletedAsync();
+            await context.Database.EnsureCreatedAsync();
 
             //Delete all existing customer
             context.Customers!.RemoveRange(await context.Customers.ToArrayAsync());
