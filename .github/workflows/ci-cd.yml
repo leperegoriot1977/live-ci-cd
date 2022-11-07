@@ -21,14 +21,25 @@ jobs:
         with:
            dotnet-versions: ${{ env.DOTNET_VERSION }}  
 
+      - name: Start Sql Server
+        run: |
+             docker run -d -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pipp0ne!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:latest     
+
+      - name: Sleep for 5 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '5s'      
+
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Build app
         run: dotnet build -c Release --no-restore      
 
-     # - name: Run automated tests
-     #   run: dotnet test -c Release --no-build
+      - name: Run automated tests
+        env: 
+          ConnectionStrings_DefaultConnection: Server=localhost;Database=CustomerBook_Test;User=sa;Password=Pipp0ne!
+        run: dotnet test -c Release --no-build
 
       - name: Publish app
         run: dotnet publish -c Release -o  ./out

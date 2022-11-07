@@ -47,7 +47,10 @@ namespace AnimalCounginDatabase.Tests
     {
         public CustomerContext CreateDbContext(string[]? args = null)
         {
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            var configuration = new ConfigurationBuilder()
+                 .AddJsonFile("appsettings.json")
+                 .AddEnvironmentVariables()
+                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<CustomerContext>();
             optionsBuilder
